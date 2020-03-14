@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: 'KoroonaBot'
+  datasource:
+    platform: POSTGRESQL
+    url: jdbc:postgresql://localhost:5432/koroonabot
+    username: koroonabot
+    password: koroonabot
+  jpa:
+    database: postgresql
+  flyway:
+    locations: classpath:/db/migrations
+
+slack.installation.success-redirect-url:
+slack.installation.error-redirect-url:

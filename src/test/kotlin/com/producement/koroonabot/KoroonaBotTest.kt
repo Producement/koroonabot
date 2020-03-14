@@ -1,0 +1,44 @@
+package com.producement.koroonabot
+
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyZeroInteractions
+import com.nhaarman.mockitokotlin2.whenever
+import com.producement.koroonabot.message.Message
+import com.producement.koroonabot.message.MessageRepository
+import org.junit.jupiter.api.Test
+
+
+class KoroonaBotTest {
+
+    private val slackService: SlackService = mock()
+    private val messageRepository: MessageRepository = mock()
+    private val terviseametWebsiteScraper: TerviseametWebsiteScraper = mock()
+
+    private val koroonaBot = KoroonaBot(slackService, messageRepository, terviseametWebsiteScraper)
+
+    @Test
+    fun `downloads latest data from terviseamet website and sends it to all slack teams`() {
+        val oldMessage = "Kokku on Eestis koroonaviirusesse nakatunud 100 inimest."
+        val newMessage = "Kokku on Eestis koroonaviirusesse nakatunud 200 inimest."
+
+        whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = oldMessage))
+        whenever(terviseametWebsiteScraper.getLatestData()).thenReturn(newMessage)
+
+        koroonaBot.poller()
+
+        verify(slackService).sendAll(newMessage)
+    }
+
+    @Test
+    fun `does not send duplicate messages`() {
+        val message = "Kokku on Eestis koroonaviirusesse nakatunud 115 inimest."
+
+        whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = message))
+        whenever(terviseametWebsiteScraper.getLatestData()).thenReturn(message)
+
+        koroonaBot.poller()
+
+        verifyZeroInteractions(slackService)
+    }
+}
