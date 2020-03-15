@@ -4,4 +4,4 @@ Bot käib iga minut Terviseameti kodulehelt viimaseid andmeid kontrollimas ja uu
 
 # paigaldamine
 
-http://koroonabot.producement.com/
+https://koroonabot.producement.com/
