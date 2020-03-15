@@ -21,4 +21,14 @@ class HomeController {
     fun fail(): String {
         return "KoroonaBoti paigaldamine ebaõnnestus."
     }
+
+    @GetMapping("/privacy")
+    fun privacy(): RedirectView {
+        return RedirectView("/privacy.html")
+    }
+
+    @GetMapping("/support")
+    fun support(): String {
+        return "Email us for support: hello@producement.com"
+    }
 }
