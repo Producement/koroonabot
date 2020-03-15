@@ -1,5 +1,6 @@
 package com.producement.koroonabot
 
+import com.producement.koroonabot.message.Message
 import com.producement.koroonabot.message.MessageRepository
 import mu.KotlinLogging
 import org.springframework.scheduling.annotation.Scheduled
@@ -21,6 +22,7 @@ class KoroonaBot(
     val latestSentMessage = messageRepository.findTopByOrderByIdDesc().message
     if(latestData != latestSentMessage) {
       log.info("Sending to Slack: $latestData")
+      messageRepository.save(Message(message = latestData))
       slackService.sendAll(latestData)
     }
   }

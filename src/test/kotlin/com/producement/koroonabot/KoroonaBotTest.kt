@@ -1,13 +1,14 @@
 package com.producement.koroonabot
 
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.nhaarman.mockitokotlin2.whenever
 import com.producement.koroonabot.message.Message
 import com.producement.koroonabot.message.MessageRepository
 import org.junit.jupiter.api.Test
-
+import org.mockito.verification.VerificationMode
 
 class KoroonaBotTest {
 
@@ -40,5 +41,21 @@ class KoroonaBotTest {
         koroonaBot.poller()
 
         verifyZeroInteractions(slackService)
+    }
+
+    @Test
+    fun `does not send duplicate messages on new data`() {
+        val oldMessage = "Kokku on Eestis koroonaviirusesse nakatunud 100 inimest."
+        val newMessage = "Kokku on Eestis koroonaviirusesse nakatunud 200 inimest."
+
+        whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = oldMessage))
+            .thenReturn(Message(message = newMessage))
+        whenever(terviseametWebsiteScraper.getLatestData()).thenReturn(newMessage)
+
+        koroonaBot.poller()
+        koroonaBot.poller()
+
+        verify(messageRepository, times(1)).save(Message(message = newMessage))
+        verify(slackService, times(1)).sendAll(newMessage)
     }
 }
