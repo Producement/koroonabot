@@ -34,4 +34,16 @@ class MessageRepositoryTest @Autowired constructor(
 
     assertThat(foundMessage).isEqualTo(message)
   }
+
+  @Test
+  fun `can find latest message`() {
+    val oldMessage = Message(message = "Kokku on Eestis koroonaviirusesse nakatunud 100 inimest.")
+    messageRepository.save(oldMessage)
+    val newMessage = Message(message = "Kokku on Eestis koroonaviirusesse nakatunud 200 inimest.")
+    messageRepository.save(newMessage)
+
+    val foundMessage = messageRepository.findTopByOrderByIdDesc()
+
+    assertThat(foundMessage).isEqualTo(newMessage)
+  }
 }
