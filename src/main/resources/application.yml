@@ -11,5 +11,7 @@ spring:
   flyway:
     locations: classpath:/db/migrations
 
-slack.installation.success-redirect-url:
-slack.installation.error-redirect-url:
+slack:
+  installation:
+    success-redirect-url: /installed
+    error-redirect-url: /failed
