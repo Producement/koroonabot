@@ -20,8 +20,8 @@ class KoroonaBotTest {
 
     @Test
     fun `downloads latest data from terviseamet website and sends it to all slack teams`() {
-        val oldMessage = "Kokku on Eestis koroonaviirusesse nakatunud 100 inimest."
-        val newMessage = "Kokku on Eestis koroonaviirusesse nakatunud 200 inimest."
+        val oldMessage = "Kokku on Eestis koroonaviirus diagnoositud 100 inimesel."
+        val newMessage = "Kokku on Eestis koroonaviirus diagnoositud 200 inimesel."
 
         whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = oldMessage))
         whenever(terviseametWebsiteScraper.getLatestData()).thenReturn(newMessage)
@@ -33,7 +33,7 @@ class KoroonaBotTest {
 
     @Test
     fun `does not send duplicate messages`() {
-        val message = "Kokku on Eestis koroonaviirusesse nakatunud 115 inimest."
+        val message = "Kokku on Eestis koroonaviirus diagnoositud 115 inimesel."
 
         whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = message))
         whenever(terviseametWebsiteScraper.getLatestData()).thenReturn(message)
@@ -45,8 +45,8 @@ class KoroonaBotTest {
 
     @Test
     fun `does not send duplicate messages on new data`() {
-        val oldMessage = "Kokku on Eestis koroonaviirusesse nakatunud 100 inimest."
-        val newMessage = "Kokku on Eestis koroonaviirusesse nakatunud 200 inimest."
+        val oldMessage = "Kokku on Eestis koroonaviirus diagnoositud 100 inimesel."
+        val newMessage = "Kokku on Eestis koroonaviirus diagnoositud 200 inimesel."
 
         whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = oldMessage))
             .thenReturn(Message(message = newMessage))

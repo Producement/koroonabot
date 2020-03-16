@@ -12,6 +12,6 @@ class TerviseametWebsiteScraperTest {
   @Disabled
   fun getLatestData() {
     val latestData = terviseametScraper.getLatestData()
-    assertThat(latestData).isEqualTo("Kokku on Eestis koroonaviirusesse nakatunud 115 inimest.")
+    assertThat(latestData).isEqualTo("Kokku on Eestis koroonaviirus diagnoositud 115 inimesel.")
   }
 }
