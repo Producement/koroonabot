@@ -8,6 +8,6 @@ class TerviseametWebsiteScraper {
 
   fun getLatestData(): String {
     return Jsoup.connect("https://www.terviseamet.ee/et/uuskoroonaviirus").get()
-        .select("li:contains(Kokku on Eestis koroonaviirus)").text().split(". ")[0] + "."
+      .select("strong:contains(POSITIIVSEID TESTE)").parents()[2].text().toLowerCase().capitalize()
   }
 }
