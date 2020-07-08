@@ -8,15 +8,14 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.producement.koroonabot.message.Message
 import com.producement.koroonabot.message.MessageRepository
 import org.junit.jupiter.api.Test
-import org.mockito.verification.VerificationMode
 
 class KoroonaBotTest {
 
     private val slackService: SlackService = mock()
     private val messageRepository: MessageRepository = mock()
-    private val terviseametWebsiteScraper: TerviseametWebsiteScraper = mock()
+    private val dataProvider: DataProvider = mock()
 
-    private val koroonaBot = KoroonaBot(slackService, messageRepository, terviseametWebsiteScraper)
+    private val koroonaBot = KoroonaBot(slackService, messageRepository, dataProvider)
 
     @Test
     fun `downloads latest data from terviseamet website and sends it to all slack teams`() {
@@ -24,7 +23,7 @@ class KoroonaBotTest {
         val newMessage = "Kokku on Eestis koroonaviirus diagnoositud 200 inimesel."
 
         whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = oldMessage))
-        whenever(terviseametWebsiteScraper.getLatestData()).thenReturn(newMessage)
+        whenever(dataProvider.getLatestData()).thenReturn(newMessage)
 
         koroonaBot.poller()
 
@@ -36,7 +35,7 @@ class KoroonaBotTest {
         val message = "Kokku on Eestis koroonaviirus diagnoositud 115 inimesel."
 
         whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = message))
-        whenever(terviseametWebsiteScraper.getLatestData()).thenReturn(message)
+        whenever(dataProvider.getLatestData()).thenReturn(message)
 
         koroonaBot.poller()
 
@@ -50,7 +49,7 @@ class KoroonaBotTest {
 
         whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = oldMessage))
             .thenReturn(Message(message = newMessage))
-        whenever(terviseametWebsiteScraper.getLatestData()).thenReturn(newMessage)
+        whenever(dataProvider.getLatestData()).thenReturn(newMessage)
 
         koroonaBot.poller()
         koroonaBot.poller()

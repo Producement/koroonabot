@@ -11,13 +11,13 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @EnableScheduling
 class KoroonaBotApplication {
 
-    @Bean
-    fun slackCredentialsProvider(): CredentialsProvider {
-        return EnvironmentVariableCredentialsProvider()
-    }
+  @Bean
+  fun slackCredentialsProvider(): CredentialsProvider {
+    return EnvironmentVariableCredentialsProvider()
+  }
 }
 
 fun main(args: Array<String>) {
-    runApplication<KoroonaBotApplication>(*args)
+  runApplication<KoroonaBotApplication>(*args)
 }
 

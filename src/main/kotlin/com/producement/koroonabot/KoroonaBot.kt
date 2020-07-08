@@ -12,12 +12,12 @@ private val log = KotlinLogging.logger {}
 class KoroonaBot(
   private val slackService: SlackService,
   private val messageRepository: MessageRepository,
-  private val terviseametWebsiteScraper: TerviseametWebsiteScraper
+  private val openDataJsonClient: DataProvider
 ) {
 
   @Scheduled(cron = "0 * * * * *")
   fun poller() {
-    val latestData = terviseametWebsiteScraper.getLatestData()
+    val latestData = openDataJsonClient.getLatestData()
     log.info("Latest data: $latestData")
     val latestSentMessage = messageRepository.findTopByOrderByIdDesc().message
     if(latestData != latestSentMessage) {
