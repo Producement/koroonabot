@@ -1,4 +1,4 @@
-package com.producement.koroonabot
+package com.producement.koroonabot.dataprovider
 
 import org.jsoup.Jsoup
 import org.springframework.stereotype.Service

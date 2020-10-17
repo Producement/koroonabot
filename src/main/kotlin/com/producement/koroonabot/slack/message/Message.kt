@@ -1,4 +1,4 @@
-package com.producement.koroonabot.message
+package com.producement.koroonabot.slack.message
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue

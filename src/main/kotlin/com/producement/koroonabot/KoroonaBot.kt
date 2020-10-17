@@ -1,7 +1,9 @@
 package com.producement.koroonabot
 
-import com.producement.koroonabot.message.Message
-import com.producement.koroonabot.message.MessageRepository
+import com.producement.koroonabot.dataprovider.DataProvider
+import com.producement.koroonabot.slack.SlackService
+import com.producement.koroonabot.slack.message.Message
+import com.producement.koroonabot.slack.message.MessageRepository
 import mu.KotlinLogging
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
@@ -12,12 +14,12 @@ private val log = KotlinLogging.logger {}
 class KoroonaBot(
   private val slackService: SlackService,
   private val messageRepository: MessageRepository,
-  private val openDataJsonClient: DataProvider
+  private val streamingJsonClient: DataProvider
 ) {
 
   @Scheduled(cron = "0 * * * * *")
   fun poller() {
-    val latestData = openDataJsonClient.getLatestData()
+    val latestData = streamingJsonClient.getLatestData()
     log.info("Latest data: $latestData")
     val latestSentMessage = messageRepository.findTopByOrderByIdDesc().message
     if(latestData != latestSentMessage) {

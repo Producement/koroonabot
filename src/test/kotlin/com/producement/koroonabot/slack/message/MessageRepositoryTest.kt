@@ -1,13 +1,7 @@
-package com.producement.koroonabot.message
+package com.producement.koroonabot.slack.message
 
-import com.kreait.slack.broker.store.team.Team
-import com.kreait.slack.broker.store.team.TeamNotFoundException
 import com.producement.koroonabot.DbContainerInitializer
-import com.producement.koroonabot.team.PersistentTeamStore
-import com.producement.koroonabot.team.TeamRepository
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired

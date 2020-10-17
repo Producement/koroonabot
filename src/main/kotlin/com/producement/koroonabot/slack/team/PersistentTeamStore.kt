@@ -1,4 +1,4 @@
-package com.producement.koroonabot.team
+package com.producement.koroonabot.slack.team
 
 import com.kreait.slack.broker.store.team.Team
 import com.kreait.slack.broker.store.team.TeamNotFoundException
@@ -17,7 +17,7 @@ class PersistentTeamStore(
   }
 
   override fun put(team: Team) {
-    teamRepository.save(com.producement.koroonabot.team.Team.from(team))
+    teamRepository.save(com.producement.koroonabot.slack.team.Team.from(team))
   }
 
   override fun removeById(id: String) {

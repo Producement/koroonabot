@@ -15,3 +15,7 @@ slack:
   installation:
     success-redirect-url: /installed
     error-redirect-url: /failed
+
+covid:
+  opendata:
+    url: https://opendata.digilugu.ee/opendata_covid19_test_results.json

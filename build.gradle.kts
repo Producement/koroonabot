@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.3.1.RELEASE"
-	id("io.spring.dependency-management") version "1.0.9.RELEASE"
-	kotlin("jvm") version "1.3.72"
-	kotlin("plugin.spring") version "1.3.72"
-	kotlin("plugin.jpa") version "1.3.72"
+	id("org.springframework.boot") version "2.3.4.RELEASE"
+	id("io.spring.dependency-management") version "1.0.10.RELEASE"
+	kotlin("jvm") version "1.4.10"
+	kotlin("plugin.spring") version "1.4.10"
+	kotlin("plugin.jpa") version "1.4.10"
 }
 
 group = "com.producement"
@@ -34,7 +34,10 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
-	testImplementation("org.testcontainers:postgresql:1.13.0")
+	testImplementation("org.testcontainers:postgresql:1.15.0-rc2")
+	testImplementation("org.mock-server:mockserver-netty:5.11.1")
+	testImplementation("org.mock-server:mockserver-client-java:5.11.1")
+	testImplementation("org.mock-server:mockserver-junit-jupiter:5.11.1")
 }
 
 tasks.withType<Test> {

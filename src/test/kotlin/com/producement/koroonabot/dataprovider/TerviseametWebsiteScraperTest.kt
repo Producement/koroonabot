@@ -1,5 +1,6 @@
-package com.producement.koroonabot
+package com.producement.koroonabot.dataprovider
 
+import com.producement.koroonabot.dataprovider.TerviseametWebsiteScraper
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test

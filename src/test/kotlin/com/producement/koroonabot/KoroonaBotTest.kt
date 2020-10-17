@@ -5,8 +5,10 @@ import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyZeroInteractions
 import com.nhaarman.mockitokotlin2.whenever
-import com.producement.koroonabot.message.Message
-import com.producement.koroonabot.message.MessageRepository
+import com.producement.koroonabot.dataprovider.DataProvider
+import com.producement.koroonabot.slack.message.Message
+import com.producement.koroonabot.slack.message.MessageRepository
+import com.producement.koroonabot.slack.SlackService
 import org.junit.jupiter.api.Test
 
 class KoroonaBotTest {

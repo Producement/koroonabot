@@ -1,8 +1,8 @@
-package com.producement.koroonabot
+package com.producement.koroonabot.slack
 
 import com.kreait.slack.api.SlackClient
 import com.kreait.slack.api.contract.jackson.group.chat.PostMessageRequest
-import com.producement.koroonabot.team.TeamRepository
+import com.producement.koroonabot.slack.team.TeamRepository
 import org.springframework.stereotype.Service
 
 @Service

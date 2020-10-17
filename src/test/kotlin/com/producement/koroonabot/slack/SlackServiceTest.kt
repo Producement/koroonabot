@@ -1,4 +1,4 @@
-package com.producement.koroonabot
+package com.producement.koroonabot.slack
 
 import org.junit.jupiter.api.Test
 

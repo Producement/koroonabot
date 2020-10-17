@@ -1,4 +1,4 @@
-package com.producement.koroonabot.team
+package com.producement.koroonabot.slack.team
 
 import javax.persistence.CascadeType
 import javax.persistence.Entity

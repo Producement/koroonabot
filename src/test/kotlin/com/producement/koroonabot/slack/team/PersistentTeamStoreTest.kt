@@ -1,4 +1,4 @@
-package com.producement.koroonabot.team
+package com.producement.koroonabot.slack.team
 
 import com.kreait.slack.broker.store.team.Team
 import com.kreait.slack.broker.store.team.Team.IncomingWebhook
