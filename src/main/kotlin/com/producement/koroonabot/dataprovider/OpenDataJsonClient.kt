@@ -6,6 +6,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.stereotype.Service
 
 @Service
+@Deprecated("Use StreamingJsonClient")
 class OpenDataJsonClient(
   @Value("\${covid.opendata.url}") private val url: String,
   restTemplateBuilder: RestTemplateBuilder
@@ -13,10 +14,9 @@ class OpenDataJsonClient(
 
   private val restTemplate = restTemplateBuilder.build()
 
-  override fun getLatestData(): String {
+  override fun getLatestPositiveTests(): Int {
     val results = restTemplate.getForObject(url, Array<TestResult>::class.java)!!
-    val positiveResults = results.filter { it.resultValue == "P" }.size
-    return "Positiivseid teste $positiveResults"
+    return results.filter { it.resultValue == "P" }.size
   }
 
   data class TestResult(@JsonProperty("ResultValue") val resultValue: String)

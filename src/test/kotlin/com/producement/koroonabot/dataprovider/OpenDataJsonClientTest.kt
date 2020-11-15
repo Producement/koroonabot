@@ -1,6 +1,5 @@
 package com.producement.koroonabot.dataprovider
 
-import com.producement.koroonabot.dataprovider.OpenDataJsonClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -48,8 +47,8 @@ class OpenDataJsonClientTest(
       .expect(requestTo("https://opendata.digilugu.ee/opendata_covid19_test_results.json"))
       .andRespond(withSuccess(json, MediaType.APPLICATION_JSON))
 
-    val latestData = openDataJsonClient.getLatestData()
+    val latestPositiveTests = openDataJsonClient.getLatestPositiveTests()
 
-    assertThat(latestData).isEqualTo("Positiivseid teste 1")
+    assertThat(latestPositiveTests).isEqualTo(1)
   }
 }

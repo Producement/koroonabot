@@ -1,7 +1,6 @@
 package com.producement.koroonabot.dataprovider
 
 import com.fasterxml.jackson.core.JsonFactory
-import com.producement.koroonabot.dataprovider.StreamingJsonClient
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -47,8 +46,8 @@ class StreamingJsonClientTest(private val mockServer: MockServerClient) {
           )
       )
 
-    val latestData = streamingJsonClient.getLatestData()
+    val latestPositiveTests = streamingJsonClient.getLatestPositiveTests()
 
-    assertThat(latestData).isEqualTo("Positiivseid teste 2")
+    assertThat(latestPositiveTests).isEqualTo(2)
   }
 }

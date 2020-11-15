@@ -12,7 +12,7 @@ class StreamingJsonClient(
   private val jsonFactory: JsonFactory
 ) : DataProvider {
 
-  override fun getLatestData(): String {
+  override fun getLatestPositiveTests(): Int {
     val parser = jsonFactory.createParser(URL(url))
 
     var positiveResults = 0
@@ -25,6 +25,6 @@ class StreamingJsonClient(
       }
     }
 
-    return "Positiivseid teste $positiveResults"
+    return positiveResults
   }
 }

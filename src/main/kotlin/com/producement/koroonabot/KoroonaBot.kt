@@ -18,11 +18,13 @@ class KoroonaBot(
 ) {
 
   @Scheduled(cron = "0 * * * * *")
-  fun poller() {
-    val latestData = streamingJsonClient.getLatestData()
+  fun poll() {
+    val latestPositiveTests = streamingJsonClient.getLatestPositiveTests()
+    val latestData = "Positiivseid teste $latestPositiveTests"
     log.info("Latest data: $latestData")
-    val latestSentMessage = messageRepository.findTopByOrderByIdDesc().message
-    if(latestData != latestSentMessage) {
+    val lastSentMessage = messageRepository.findTopByOrderByIdDesc().message
+    val lastSentNumber = lastSentMessage.filter { it.isDigit() }.toInt()
+    if (latestData != lastSentMessage && latestPositiveTests > lastSentNumber) {
       log.info("Sending to Slack: $latestData")
       messageRepository.save(Message(message = latestData))
       slackService.sendAll(latestData)
