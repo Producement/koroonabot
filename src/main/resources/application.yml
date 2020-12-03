@@ -11,6 +11,13 @@ spring:
   flyway:
     locations: classpath:/db/migrations
 
+logging:
+  level:
+    org:
+      apache:
+        http:
+          wire: DEBUG
+
 slack:
   installation:
     success-redirect-url: /installed
