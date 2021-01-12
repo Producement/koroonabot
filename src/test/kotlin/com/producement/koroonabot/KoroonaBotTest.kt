@@ -16,19 +16,21 @@ class KoroonaBotTest {
 
     private val slackService: SlackService = mock()
     private val messageRepository: MessageRepository = mock()
-    private val dataProvider: DataProvider = mock()
+    private val positiveResultsClient: DataProvider = mock()
+    private val vaccinationsClient: DataProvider = mock()
 
-    private val koroonaBot = KoroonaBot(slackService, messageRepository, dataProvider)
+    private val koroonaBot = KoroonaBot(slackService, messageRepository, positiveResultsClient, vaccinationsClient)
 
     @Test
     fun `downloads latest data from the data provider and sends it to all slack teams`() {
         val oldMessage = "Positiivseid teste 100"
         val newNumber = 200
 
-        whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = oldMessage))
-        whenever(dataProvider.getLatestPositiveTests()).thenReturn(newNumber)
+        whenever(messageRepository.findTopByMessageContainingOrderByIdDesc("Positiivseid teste"))
+            .thenReturn(Message(message = oldMessage))
+        whenever(positiveResultsClient.getLatest()).thenReturn(newNumber)
 
-        koroonaBot.poll()
+        koroonaBot.positiveTests()
 
         verify(slackService).sendAll("Positiivseid teste 200")
     }
@@ -38,12 +40,13 @@ class KoroonaBotTest {
         val positiveResults = 115
         val message = "Positiivseid teste $positiveResults"
 
-        whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = message))
-        whenever(dataProvider.getLatestPositiveTests()).thenReturn(positiveResults)
+        whenever(messageRepository.findTopByMessageContainingOrderByIdDesc("Positiivseid teste"))
+            .thenReturn(Message(message = message))
+        whenever(positiveResultsClient.getLatest()).thenReturn(positiveResults)
 
-        koroonaBot.poll()
+        koroonaBot.positiveTests()
 
-        verify(messageRepository, times(1)).findTopByOrderByIdDesc()
+        verify(messageRepository, times(1)).findTopByMessageContainingOrderByIdDesc("Positiivseid teste")
         verifyNoMoreInteractions(messageRepository)
         verifyZeroInteractions(slackService)
     }
@@ -54,12 +57,13 @@ class KoroonaBotTest {
         val newPositiveResults = 200
         val newMessage = "Positiivseid teste $newPositiveResults"
 
-        whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = oldMessage))
+        whenever(messageRepository.findTopByMessageContainingOrderByIdDesc("Positiivseid teste"))
+            .thenReturn(Message(message = oldMessage))
             .thenReturn(Message(message = newMessage))
-        whenever(dataProvider.getLatestPositiveTests()).thenReturn(newPositiveResults)
+        whenever(positiveResultsClient.getLatest()).thenReturn(newPositiveResults)
 
-        koroonaBot.poll()
-        koroonaBot.poll()
+        koroonaBot.positiveTests()
+        koroonaBot.positiveTests()
 
         verify(messageRepository, times(1)).save(Message(message = newMessage))
         verify(slackService, times(1)).sendAll(newMessage)
@@ -70,13 +74,40 @@ class KoroonaBotTest {
         val oldMessage = "Positiivseid teste 100"
         val newPositiveResults = 0
 
-        whenever(messageRepository.findTopByOrderByIdDesc()).thenReturn(Message(message = oldMessage))
-        whenever(dataProvider.getLatestPositiveTests()).thenReturn(newPositiveResults)
+        whenever(messageRepository.findTopByMessageContainingOrderByIdDesc("Positiivseid teste"))
+            .thenReturn(Message(message = oldMessage))
+        whenever(positiveResultsClient.getLatest()).thenReturn(newPositiveResults)
 
-        koroonaBot.poll()
+        koroonaBot.positiveTests()
 
-        verify(messageRepository, times(1)).findTopByOrderByIdDesc()
+        verify(messageRepository, times(1)).findTopByMessageContainingOrderByIdDesc("Positiivseid teste")
         verifyNoMoreInteractions(messageRepository)
         verifyZeroInteractions(slackService)
+    }
+
+    @Test
+    fun `sends vaccination data as well`() {
+        val oldPositiveTests = "Positiivseid teste 100"
+        val oldVaccinations = "Vaktsineerimisi 200"
+        val newPositiveResults = 300
+        val newVaccinationResults = 400
+        val newPositiveTests = "Positiivseid teste $newPositiveResults"
+        val newVaccinations = "Vaktsineerimisi $newVaccinationResults"
+
+        whenever(messageRepository.findTopByMessageContainingOrderByIdDesc("Positiivseid teste"))
+            .thenReturn(Message(message = oldPositiveTests))
+        whenever(messageRepository.findTopByMessageContainingOrderByIdDesc("Vaktsineerimisi"))
+            .thenReturn(Message(message = oldVaccinations))
+        whenever(positiveResultsClient.getLatest()).thenReturn(newPositiveResults)
+        whenever(vaccinationsClient.getLatest()).thenReturn(newVaccinationResults)
+
+        koroonaBot.pollLatestData()
+
+        verify(messageRepository, times(1)).findTopByMessageContainingOrderByIdDesc("Positiivseid teste")
+        verify(messageRepository, times(1)).findTopByMessageContainingOrderByIdDesc("Vaktsineerimisi")
+        verify(messageRepository, times(1)).save(Message(message = newPositiveTests))
+        verify(messageRepository, times(1)).save(Message(message = newVaccinations))
+        verify(slackService, times(1)).sendAll(newPositiveTests)
+        verify(slackService, times(1)).sendAll(newVaccinations)
     }
 }

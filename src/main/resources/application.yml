@@ -25,4 +25,7 @@ slack:
 
 covid:
   opendata:
-    url: https://opendata.digilugu.ee/opendata_covid19_test_results.json
+    testResults:
+      url: https://opendata.digilugu.ee/opendata_covid19_test_results.json
+    vaccinations:
+      url: https://opendata.digilugu.ee/opendata_covid19_vaccination_total.json

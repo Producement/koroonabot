@@ -1,4 +1,4 @@
-package com.producement.koroonabot.dataprovider
+package com.producement.koroonabot.dataprovider.positiveresults
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -9,9 +9,9 @@ import org.springframework.test.web.client.MockRestServiceServer
 import org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo
 import org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess
 
-@RestClientTest(OpenDataJsonClient::class)
-class OpenDataJsonClientTest(
-  @Autowired private val openDataJsonClient: OpenDataJsonClient,
+@RestClientTest(PositiveResultsOpenDataJsonClient::class)
+class PositiveResultsOpenDataJsonClientTest(
+  @Autowired private val openDataJsonClient: PositiveResultsOpenDataJsonClient,
   @Autowired private val mockRestServiceServer: MockRestServiceServer
 ) {
 
@@ -47,7 +47,7 @@ class OpenDataJsonClientTest(
       .expect(requestTo("https://opendata.digilugu.ee/opendata_covid19_test_results.json"))
       .andRespond(withSuccess(json, MediaType.APPLICATION_JSON))
 
-    val latestPositiveTests = openDataJsonClient.getLatestPositiveTests()
+    val latestPositiveTests = openDataJsonClient.getLatest()
 
     assertThat(latestPositiveTests).isEqualTo(1)
   }

@@ -21,22 +21,22 @@ class MessageRepositoryTest @Autowired constructor(
 
   @Test
   fun `can insert and find latest message`() {
-    val message = Message(message = "Kokku on Eestis koroonaviirus diagnoositud 115 inimesel.")
+    val message = Message(message = "Positiivseid teste 115")
     messageRepository.save(message)
 
-    val foundMessage = messageRepository.findTopByOrderByIdDesc()
+    val foundMessage = messageRepository.findTopByMessageContainingOrderByIdDesc("Positiivseid teste")
 
     assertThat(foundMessage).isEqualTo(message)
   }
 
   @Test
   fun `can find latest message`() {
-    val oldMessage = Message(message = "Kokku on Eestis koroonaviirus diagnoositud 100 inimesel.")
+    val oldMessage = Message(message = "Positiivseid teste 100")
     messageRepository.save(oldMessage)
-    val newMessage = Message(message = "Kokku on Eestis koroonaviirus diagnoositud 200 inimesel.")
+    val newMessage = Message(message = "Positiivseid teste 200")
     messageRepository.save(newMessage)
 
-    val foundMessage = messageRepository.findTopByOrderByIdDesc()
+    val foundMessage = messageRepository.findTopByMessageContainingOrderByIdDesc("Positiivseid teste")
 
     assertThat(foundMessage).isEqualTo(newMessage)
   }

@@ -1,18 +1,19 @@
-package com.producement.koroonabot.dataprovider
+package com.producement.koroonabot.dataprovider.positiveresults
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonToken
+import com.producement.koroonabot.dataprovider.DataProvider
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.net.URL
 
 @Service
-class StreamingJsonClient(
-  @Value("\${covid.opendata.url}") private val url: String,
+class PositiveResultsStreamingJsonClient(
+  @Value("\${covid.opendata.testResults.url}") private val url: String,
   private val jsonFactory: JsonFactory
 ) : DataProvider {
 
-  override fun getLatestPositiveTests(): Int {
+  override fun getLatest(): Int {
     val parser = jsonFactory.createParser(URL(url))
 
     var positiveResults = 0

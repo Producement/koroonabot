@@ -1,4 +1,4 @@
-package com.producement.koroonabot.dataprovider
+package com.producement.koroonabot.dataprovider.positiveresults
 
 import com.fasterxml.jackson.core.JsonFactory
 import org.assertj.core.api.Assertions.assertThat
@@ -12,15 +12,15 @@ import org.mockserver.model.HttpRequest.request
 import org.mockserver.model.HttpResponse.response
 
 @ExtendWith(MockServerExtension::class)
-class StreamingJsonClientTest(private val mockServer: MockServerClient) {
+class PositiveResultsStreamingJsonClientTest(private val mockServer: MockServerClient) {
 
-  private lateinit var streamingJsonClient: StreamingJsonClient
+  private lateinit var positiveResultsClient: PositiveResultsStreamingJsonClient
   private lateinit var url: String
 
   @BeforeEach
   fun setUp() {
     url = "http://localhost:${mockServer.port}/opendata_covid19_test_results.json"
-    streamingJsonClient = StreamingJsonClient(url, JsonFactory())
+    positiveResultsClient = PositiveResultsStreamingJsonClient(url, JsonFactory())
   }
 
   @Test
@@ -46,7 +46,7 @@ class StreamingJsonClientTest(private val mockServer: MockServerClient) {
           )
       )
 
-    val latestPositiveTests = streamingJsonClient.getLatestPositiveTests()
+    val latestPositiveTests = positiveResultsClient.getLatest()
 
     assertThat(latestPositiveTests).isEqualTo(2)
   }

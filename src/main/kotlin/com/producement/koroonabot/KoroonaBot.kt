@@ -14,17 +14,30 @@ private val log = KotlinLogging.logger {}
 class KoroonaBot(
   private val slackService: SlackService,
   private val messageRepository: MessageRepository,
-  private val streamingJsonClient: DataProvider
+  private val positiveResultsStreamingJsonClient: DataProvider,
+  private val vaccinationsStreamingJsonClient: DataProvider
 ) {
 
   @Scheduled(cron = "0 * * * * *")
-  fun poll() {
-    val latestPositiveTests = streamingJsonClient.getLatestPositiveTests()
-    val latestData = "Positiivseid teste $latestPositiveTests"
+  fun pollLatestData() {
+    positiveTests()
+    vaccinations()
+  }
+
+  fun positiveTests() {
+    sendToSlack("Positiivseid teste", positiveResultsStreamingJsonClient.getLatest())
+  }
+
+  fun vaccinations() {
+    sendToSlack("Vaktsineerimisi", vaccinationsStreamingJsonClient.getLatest())
+  }
+
+  private fun sendToSlack(prefix: String, number: Int) {
+    val latestData = "$prefix $number"
     log.info("Latest data: $latestData")
-    val lastSentMessage = messageRepository.findTopByOrderByIdDesc().message
+    val lastSentMessage = messageRepository.findTopByMessageContainingOrderByIdDesc(prefix)?.message ?: "0"
     val lastSentNumber = lastSentMessage.filter { it.isDigit() }.toInt()
-    if (latestData != lastSentMessage && latestPositiveTests > lastSentNumber) {
+    if (latestData != lastSentMessage && number > lastSentNumber) {
       log.info("Sending to Slack: $latestData")
       messageRepository.save(Message(message = latestData))
       slackService.sendAll(latestData)
