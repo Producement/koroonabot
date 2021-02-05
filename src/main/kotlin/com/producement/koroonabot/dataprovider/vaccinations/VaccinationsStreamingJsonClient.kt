@@ -16,16 +16,24 @@ class VaccinationsStreamingJsonClient(
   override fun getLatest(): Int {
     val parser = jsonFactory.createParser(URL(url))
 
-    var vaccinations = 0
+    val vaccinations: MutableMap<String, Int> = mutableMapOf()
+    var currentStatus = ""
     while (parser.nextToken() != JsonToken.END_ARRAY) {
+
+      if (parser.currentName == "VaccinationStatus") {
+        parser.nextToken()
+        currentStatus = parser.valueAsString
+      }
+
       if (parser.currentName == "TotalCount") {
         parser.nextToken()
-        if (parser.intValue > vaccinations) {
-          vaccinations = parser.intValue;
+        if (parser.intValue > vaccinations.getOrDefault(currentStatus, -1)) {
+          vaccinations[currentStatus] = parser.intValue
         }
       }
+
     }
 
-    return vaccinations
+    return vaccinations.map { it.value }.sum()
   }
 }

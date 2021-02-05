@@ -39,22 +39,40 @@ class VaccinationsStreamingJsonClientTest(private val mockServer: MockServerClie
             """
             [
               {
-                "StatisticsDate": "2020-12-27",
+                "StatisticsDate": "2021-02-03",
                 "TargetDiseaseCode": "219",
                 "TargetDisease": "COVID-19",
                 "VaccinationStatus": "InProgress",
-                "DailyCount": 191,
-                "TotalCount": 191,
-                "PopulationCoverage": 0.014
+                "DailyCount": 1708,
+                "TotalCount": 31858,
+                "PopulationCoverage": 2.397
               },
               {
-                "StatisticsDate": "2020-12-28",
+                "StatisticsDate": "2021-02-03",
+                "TargetDiseaseCode": "219",
+                "TargetDisease": "COVID-19",
+                "VaccinationStatus": "Completed",
+                "DailyCount": 1526,
+                "TotalCount": 14325,
+                "PopulationCoverage": 1.078
+              },
+              {
+                "StatisticsDate": "2021-02-04",
+                "TargetDiseaseCode": "219",
+                "TargetDisease": "COVID-19",
+                "VaccinationStatus": "Completed",
+                "DailyCount": 1546,
+                "TotalCount": 15871,
+                "PopulationCoverage": 1.194
+              },
+              {
+                "StatisticsDate": "2021-02-04",
                 "TargetDiseaseCode": "219",
                 "TargetDisease": "COVID-19",
                 "VaccinationStatus": "InProgress",
-                "DailyCount": 319,
-                "TotalCount": 510,
-                "PopulationCoverage": 0.038
+                "DailyCount": 2069,
+                "TotalCount": 33927,
+                "PopulationCoverage": 2.553
               }
             ]
             """
@@ -63,6 +81,6 @@ class VaccinationsStreamingJsonClientTest(private val mockServer: MockServerClie
 
     val vaccinations = vaccinationsClient.getLatest()
 
-    assertThat(vaccinations).isEqualTo(510)
+    assertThat(vaccinations).isEqualTo(15871 + 33927)
   }
 }
