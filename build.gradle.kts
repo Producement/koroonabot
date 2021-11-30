@@ -37,7 +37,7 @@ dependencies {
 	testImplementation("org.testcontainers:postgresql:1.15.0-rc2")
 	testImplementation("org.mock-server:mockserver-netty:5.11.1")
 	testImplementation("org.mock-server:mockserver-client-java:5.11.1")
-	testImplementation("org.mock-server:mockserver-junit-jupiter:5.11.1")
+	testImplementation("org.mock-server:mockserver-junit-jupiter:5.11.2")
 }
 
 tasks.withType<Test> {
