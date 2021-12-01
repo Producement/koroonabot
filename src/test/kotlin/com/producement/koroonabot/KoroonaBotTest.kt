@@ -1,16 +1,11 @@
 package com.producement.koroonabot
 
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
-import com.nhaarman.mockitokotlin2.verifyZeroInteractions
-import com.nhaarman.mockitokotlin2.whenever
 import com.producement.koroonabot.dataprovider.DataProvider
 import com.producement.koroonabot.slack.message.Message
 import com.producement.koroonabot.slack.message.MessageRepository
 import com.producement.koroonabot.slack.SlackService
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.*
 
 class KoroonaBotTest {
 
@@ -48,7 +43,7 @@ class KoroonaBotTest {
 
         verify(messageRepository, times(1)).findTopByMessageContainingOrderByIdDesc("Positiivseid teste")
         verifyNoMoreInteractions(messageRepository)
-        verifyZeroInteractions(slackService)
+        verifyNoInteractions(slackService)
     }
 
     @Test
@@ -82,7 +77,7 @@ class KoroonaBotTest {
 
         verify(messageRepository, times(1)).findTopByMessageContainingOrderByIdDesc("Positiivseid teste")
         verifyNoMoreInteractions(messageRepository)
-        verifyZeroInteractions(slackService)
+        verifyNoInteractions(slackService)
     }
 
     @Test
