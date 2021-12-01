@@ -51,11 +51,3 @@ tasks.withType<KotlinCompile> {
 		jvmTarget = "1.8"
 	}
 }
-
-tasks.withType<BootJar> {
-	archiveClassifier.set("boot")
-}
-
-tasks.withType<Jar>() {
-	archiveClassifier.set("")
-}
