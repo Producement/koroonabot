@@ -24,7 +24,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	runtimeOnly("org.postgresql:postgresql")
-	implementation("com.kreait.slack:slack-spring-boot-starter:1.0.0")
+	implementation("com.kreait.slack:slack-spring-boot-starter:2.0.0")
 	implementation("org.jsoup:jsoup:1.14.3")
 	implementation("io.github.microutils:kotlin-logging:2.1.0")
 	testImplementation("com.kreait.slack:slack-spring-test-api-client:1.0.0")
