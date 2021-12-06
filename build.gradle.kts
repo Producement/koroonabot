@@ -26,7 +26,7 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("com.kreait.slack:slack-spring-boot-starter:1.0.0")
 	implementation("org.jsoup:jsoup:1.14.3")
-	implementation("io.github.microutils:kotlin-logging:2.1.0")
+	implementation("io.github.microutils:kotlin-logging:2.1.14")
 	testImplementation("com.kreait.slack:slack-spring-test-api-client:1.0.0")
 	testImplementation("com.kreait.slack:slack-jackson-dto-test:1.0.0")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:4.0.0")
